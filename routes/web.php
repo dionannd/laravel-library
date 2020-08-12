@@ -35,12 +35,14 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::get('/user/role-permission', 'UserController@rolePermission')->name('user.role_permission');
 		Route::put('/user/permission/{role}', 'UserController@setRolePermission')->name('user.setRolePermission');
 	});
-	// Dashboard
+	/** Dashboard */
 	Route::get('/home', 'HomeController@index')->name('home');
-	// Kategori
+	/** Kategori */
 	Route::resource('/kategori', 'KategoriController');
-	// Buku
+	/** Letak */
+	Route::resource('letak', 'LetakController');
+	/** Buku */
 	Route::resource('/buku', 'BukuController');
-	// Anggota
+	/** Anggota */
 	Route::resource('/anggota', 'AnggotaController');
 });
