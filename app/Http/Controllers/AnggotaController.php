@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Model\Anggota\Anggota;
+use App\Model\Anggota\Anggota;
 
 class AnggotaController extends Controller
 {
@@ -14,7 +14,8 @@ class AnggotaController extends Controller
      */
     public function index()
     {
-        return view('anggota.index');
+        $anggota = Anggota::all();
+        return view('pages.anggota.index', compact('anggota'));
     }
 
     /**
@@ -24,7 +25,7 @@ class AnggotaController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.anggota.create');
     }
 
     /**
@@ -57,7 +58,7 @@ class AnggotaController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('pages.anggota.edit');
     }
 
     /**

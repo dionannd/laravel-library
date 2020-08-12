@@ -45,7 +45,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-    	$user = User::findOrFail($id);
+    	$user = User::find($id);
     	return view('pages.user.form', compact('user'));
     }
 
@@ -122,7 +122,7 @@ class UserController extends Controller
     public function setRolePermission(Request $request, $role)
     {
         $role = Role::findByName($role);
-        $role->syncPermission($request->permission);
+        $role->syncPermissions($request->permission);
         return redirect()->back()->with(['success' => 'Permission ke Role tersimpan!']);
     }
 }

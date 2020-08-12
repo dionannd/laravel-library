@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Model\Buku\Buku;
+use App\Model\Buku\Buku;
+use App\Model\Kategori\Kategori;
 
 class BukuController extends Controller
 {
@@ -14,7 +15,8 @@ class BukuController extends Controller
      */
     public function index()
     {
-        return view('pages.buku.index');
+        $buku = Buku::all();
+        return view('pages.buku.index', compact('buku'));
     }
 
     /**
@@ -24,7 +26,8 @@ class BukuController extends Controller
      */
     public function create()
     {
-        //
+        $kategori = Kategori::all();
+        return view('pages.buku.create', compact('kategori'));
     }
 
     /**

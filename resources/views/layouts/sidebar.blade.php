@@ -24,6 +24,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class="{{ set_active(['kategori.index', 'kategori.create']) }}"><a href="{{ route('kategori.index') }}"><i class="fa fa-book"></i> Data Kategori</a></li>
+                    <li class="{{ set_active('anggota.index') }}"><a href="{{ route('anggota.index') }}"><i class="fa fa-archive"></i> Data Letak</a></li>
                     <li class="{{ set_active('buku.index') }}"><a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a></li>
                     <li class="{{ set_active('anggota.index') }}"><a href="{{ route('anggota.index') }}"><i class="fa fa-group"></i> Data Anggota</a></li>
                 </ul>

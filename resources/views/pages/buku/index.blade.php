@@ -14,35 +14,73 @@
     </ol>
 </section>
 <section class="content">
-	<div class="row">
-		<div class="col-xs-12">
-			@component('components.box')
-				@slot('header')
-					<a href="{{ route('buku.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
-				@endslot
-				@slot('right')
-				@endslot
-					<table class="table table-hover table-bordered table-striped" id="table">
-						<thead>
-							<tr>
-								<th width="30px">No</th>
-								<th width="100px">Kode</th>
-								<th>Judul Buku</th>
-								<th>Kategori</th>
-								<th>Pengarang</th>
-								<th>Penerbit</th>
-								<th>Tahun</th>
-								<th width="120px" class="text-center">Kelola</th>
-							</tr>
-						</thead>
-						<tbody>
-							
-						</tbody>
-					</table>
-				@slot('footer')
-				@endslot
-			@endcomponent
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				@component('components.box')
+					@slot('header')
+						<a href="{{ route('buku.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+					@endslot
+					@slot('right')
+					@endslot
+						<div class="table-responsive">
+							<table class="table table-hover table-bordered table-striped" id="table">
+								<thead>
+									<tr>
+										<th width="30px">No</th>
+										<th width="100px">ID Buku</th>
+										<th>Judul Buku</th>
+										<th>Kategori</th>
+										<th>Pengarang</th>
+										<th>Penerbit</th>
+										<th>Tahun Terbit</th>
+										<th width="80px" class="text-center">Kelola</th>
+									</tr>
+								</thead>
+								<tbody>
+									@php $no = 1; @endphp
+									@foreach($buku as $row)
+									<tr>
+										<td>{{ $no++ }}</td>
+										<td>{{ $row->kode }}</td>
+										<td>{{ $row->judul }}</td>
+										<td>{{ $row->kategori->nama }}</td>
+										<td>{{ $row->pengarang }}</td>
+										<td>{{ $row->penerbit }}</td>
+										<td>{{ $row->tahun }}</td>
+										<td class="text-center">
+											<form action="{{ route('kategori.destroy', $row->id) }}" method="POST">
+												@csrf
+												<input type="hidden" name="_method" value="DELETE">
+												<a href="{{ route('kategori.edit', $row->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+												<button class="btn btn-danger btn-sm" id="delete"><i class="fa fa-trash"></i></button>
+											</form>
+										</td>
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					@slot('footer')
+					@endslot
+				@endcomponent
+			</div>
 		</div>
 	</div>
 </section>
-@endsection
+@stop
+
+@push('script')
+<script>
+	$(document).ready(function() {
+		$('#table').DataTable({
+			columnDefs: [
+				{
+					targets: [-1],
+					orderable: false
+				}
+			]
+		});
+	})
+</script>
+@endpush

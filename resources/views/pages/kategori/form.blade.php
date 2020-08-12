@@ -11,7 +11,8 @@
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Kategori</a></li>
-        <li class="active">Tambah</li>
+        @php $route = isset($kategori) ? 'Edit' : 'Tambah' @endphp
+        <li class="active">{{ $route }}</li>
     </ol>
 </section>
 <section class="content">
@@ -24,37 +25,33 @@
 					@endslot
 					@slot('right')
 					@endslot
-						@php $route = isset($kategori) ? route('kategori.update',['id' => $kategori->id]) : route('kategori.store') @endphp
-			            <form class="form-horizontal" action="{{ $route }}" method="POST">
-			            	@if (isset($kategori)) <input type="hidden" name="_method" value="PUT"> @endif
+						@php $route = isset($kategori) ? route('kategori.update', $kategori->id) : route('kategori.store') @endphp
+			            <form action="{{ $route }}" method="POST">
 			            	@csrf
+			            	@if (isset($kategori)) @method('PUT') @endif
 			              	<div class="box-body">
 			                	<div class="form-group {{ $errors->has('nama') ? ' has-error' : '' }}">
-			                  		<label for="nama" class="col-sm-2 control-label">Nama Kategori</label>
-			                  		<div class="col-sm-10">
-			                    		<input type="text" name="nama" id="nama" class="form-control" value="{{ is_null(old('nama')) ? (isset($kategori) ? $kategori->nama : null) : old('nama') }}">
-				                  		@if ($errors->has('nama'))
-		                                    <span class="help-block" role="alert">
-		                                        {{ $errors->first('nama') }}
-		                                    </span>
-		                                @endif
-			                  		</div>
+			                  		<label for="nama" class="control-label">Nama Kategori:<span class="text-danger">*</span></label>
+		                    		<input type="text" name="nama" id="nama" class="form-control" value="{{ is_null(old('nama')) ? (isset($kategori) ? $kategori->nama : null) : old('nama') }}">
+			                  		@if ($errors->has('nama'))
+	                                    <span class="help-block" role="alert">
+	                                        {{ $errors->first('nama') }}
+	                                    </span>
+	                                @endif
 			                	</div>
 			                	<div class="form-group {{ $errors->has('deskripsi') ? ' has-error' : '' }}">
-			                  		<label for="deskripsi" class="col-sm-2 control-label">Deskripsi</label>
-			                  		<div class="col-sm-10">
-			                    		<textarea name="deskripsi" id="deskripsi" cols="3" rows="3" class="form-control {{ $errors->has('deskripsi') ? ' is-invalid' : '' }}">{{ is_null(old('deskripsi')) ? (isset($kategori) ? $kategori->deskripsi : null) : old('deskripsi') }}</textarea>
-				                  		@if ($errors->has('name'))
-		                                    <span class="help-block" role="alert">
-		                                        <strong>{{ $errors->first('deskripsi') }}</strong>
-		                                    </span>
-		                                @endif
-			                  		</div>
+			                  		<label for="deskripsi" class="control-label">Deskripsi:<span class="text-danger">*</span></label>
+		                    		<textarea name="deskripsi" id="deskripsi" cols="3" rows="3" class="form-control {{ $errors->has('deskripsi') ? ' is-invalid' : '' }}">{{ is_null(old('deskripsi')) ? (isset($kategori) ? $kategori->deskripsi : null) : old('deskripsi') }}</textarea>
+			                  		@if ($errors->has('deskripsi'))
+	                                    <span class="help-block" role="alert">
+	                                        {{ $errors->first('deskripsi') }}
+	                                    </span>
+	                                @endif
 			                	</div>
 			              	</div>
 		            @slot('footer')
 			            	<div class="box-footer">
-			                	<button type="Reset" class="btn btn-danger btn-sm" id="reset"><i class="fa fa-refresh"></i> Reset</button>
+			                	<button type="Reset" class="btn btn-danger btn-sm"><i class="fa fa-refresh"></i> Reset</button>
 			                	<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> Simpan</button>
 			              	</div>
 		            	</form>
@@ -65,3 +62,11 @@
 	</div>
 </section>
 @endsection
+
+@push('script')
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+	})
+</script>
+@endpush

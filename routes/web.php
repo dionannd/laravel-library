@@ -19,7 +19,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::group(['middleware' => 'auth'], function() {
 	Route::group(['middleware' => ['role:admin']], function() {
-		// User
+		/* User */
 		Route::resource('/user', 'UserController')->except([
 			'show'
 		]);
@@ -37,10 +37,10 @@ Route::group(['middleware' => 'auth'], function() {
 	});
 	// Dashboard
 	Route::get('/home', 'HomeController@index')->name('home');
-	// Buku
-	Route::resource('/buku', 'BukuController');
 	// Kategori
 	Route::resource('/kategori', 'KategoriController');
+	// Buku
+	Route::resource('/buku', 'BukuController');
 	// Anggota
 	Route::resource('/anggota', 'AnggotaController');
 });

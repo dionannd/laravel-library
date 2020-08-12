@@ -87,9 +87,9 @@
 										@php $no = 1; @endphp
 										@foreach($permissions as $key => $row)
 										<input type="checkbox" name="permission[]" class="minimal-red" value="{{ $row }}" {{ in_array($row, $hasPermission) ? 'checked':'' }}> {{ $row }} <br>
-										@if($no++%4 == 0)
+										{{-- @if($no++%4 == 0)
 										<br>
-										@endif
+										@endif --}}
 										@endforeach
 									</div>
 								</div>

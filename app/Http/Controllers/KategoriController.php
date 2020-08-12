@@ -37,19 +37,22 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $rule = [
-            'nama'      => 'required|string|max:15|unique:kategori,nama',
-            'deskripsi' => 'required|string|max:50',
+        $rules = [
+            'nama'      => 'required|string|max:15|unique:kategori',
+            'deskripsi' => 'required|string'
         ];
         $message = [
-            'nama.unique' => 'Kategori sudah ada harap ganti dengan yang lain'
+            'nama.unique' => 'Kategori sudah ada, harap ganti dengan yang lain'
         ];
-        $validation = Validator::make($request->all(),$rule,$message);
+        $validation = Validator::make($request->all(), $rules, $message);
         if ($validation->fails()) {
             /* redirect back and show error validation */
             return redirect()->back()->withErrors($validation)->withInput();
         }
-        $kategori = (new Kategori)->create($request->all());
+        $kategori = Kategori::create([
+            'nama'      => $request->nama,
+            'deskripsi' => $request->deskripsi
+        ]);
         if ($kategori) {
             /* if success redirect to kategori list */
             return redirect()->route('kategori.index')->with(['success' => 'Kategori berhasil ditambahkan']);
@@ -78,10 +81,7 @@ class KategoriController extends Controller
     public function edit($id)
     {
         $kategori = Kategori::find($id);
-        if ($kategori) {
-            return view('pages.kategori.form',compact('kategori'));
-        }
-        return 404;
+        return view('pages.kategori.form',compact('kategori'));
     }
 
     /**
@@ -93,21 +93,25 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rule = [
-            'nama'      => 'required|string|max:15',
-            'deskripsi' => 'required|string|max:50'
+
+        $kategori = Kategori::find($id);
+        $rules = [
+            'nama'      => 'required|string|max:15|unique:kategori,nama,'.$kategori->id,
+            'deskripsi' => 'required|string'
         ];
         $message = [
-            'nama.unique' => 'Kategori sudah ada harap ganti dengan yang lain'
+            'nama.unique' => 'Kategori sudah ada, harap ganti dengan yang lain'
         ];
-        $validation = Validator::make($request->all(),$rule,$message);
+        $validation = Validator::make($request->all(), $rules, $message);
         if ($validation->fails()) {
             /* redirect back and show error validation */
             return redirect()->back()->withErrors($validation)->withInput();
         }
-        $kategori = Kategori::find($id);
         if ($kategori) {
-            $kategori->update($request->all());
+            $kategori->update([
+                'nama'      => $request->nama,
+                'deskripsi' =>$request->deskripsi
+            ]);
             /* if success redirect to kategori list */
             return redirect()->route('kategori.index')->with(['success' => 'Kategori berhasil diperbaharui']);
         } else {

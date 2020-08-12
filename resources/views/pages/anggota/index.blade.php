@@ -1,16 +1,16 @@
 @extends('layouts.master_app')
 
-@section('title', 'Kategori Buku')
+@section('title', 'Anggota')
 
 @section('content')
 <section class="content-header">
     <h1>
-        Kategori
+        Anggota
         <small>Kelola Data</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Kategori</li>
+        <li class="active">Anggota</li>
     </ol>
 </section>
 <section class="content">
@@ -19,32 +19,32 @@
 			<div class="col-xs-12">
 				@component('components.box')
 					@slot('header')
-						<a href="{{ route('kategori.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+						<a href="{{ route('anggota.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
 					@endslot
 					@slot('right')
 					@endslot
-						@if(session('success'))
-							@component('components.alert', ['type' => 'success'])
-								{!! session('success') !!}
-							@endcomponent
-						@endif
 						<div class="table-responsive">
 							<table class="table table-hover table-bordered table-striped" id="table">
 								<thead>
 									<tr>
 										<th width="30px">No</th>
-										<th>Nama Kategori</th>
-										<th>Deskripsi</th>
-										<th width="120px" class="text-center">Kelola</th>
+										<th width="100px">ID Anggota</th>
+										<th>Nama Anggota</th>
+										<th>JK</th>
+										<th>Alamat</th>
+										<th>No. Telepon</th>
+										<th width="80px" class="text-center">Kelola</th>
 									</tr>
 								</thead>
 								<tbody>
 									@php $no = 1; @endphp
-									@foreach($kategori as $row)
+									@foreach($anggota as $row)
 									<tr>
-										<td>{{ $no++ }}</td>
+										<td>{{ $row->kode }}</td>
 										<td>{{ $row->nama }}</td>
-										<td>{{ $row->deskripsi }}</td>
+										<td>{{ $row->gender }}</td>
+										<td>{{ $row->alamat }}</td>
+										<td>{{ $row->telepon }}</td>
 										<td class="text-center">
 											<form action="{{ route('kategori.destroy', $row->id) }}" method="POST">
 												@csrf
@@ -68,8 +68,8 @@
 @endsection
 
 @push('script')
-<script type="text/javascript">
-	$(document).ready(function () {
+<script>
+	$(document).ready(function() {
 		$('#table').DataTable({
 			columnDefs: [
 				{
@@ -78,6 +78,6 @@
 				}
 			]
 		});
-	});
+	})
 </script>
 @endpush
