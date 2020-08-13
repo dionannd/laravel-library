@@ -18,6 +18,7 @@ class CreateBukuTable extends Migration
             $table->string('kode', 10)->unique();
             $table->string('judul');
             $table->foreignId('id_kategori');
+            $table->foreignId('id_letak');
             $table->string('pengarang');
             $table->string('penerbit');
             $table->integer('tahun');

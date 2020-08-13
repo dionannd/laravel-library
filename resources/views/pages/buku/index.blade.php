@@ -20,6 +20,7 @@
 				@component('components.box')
 					@slot('header')
 						<a href="{{ route('buku.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+						<a href="#" class="btn btn-success btn-sm"><i class="fa fa-file"></i> Import</a>
 					@endslot
 					@slot('right')
 					@endslot
@@ -33,7 +34,7 @@
 										<th>Kategori</th>
 										<th>Pengarang</th>
 										<th>Penerbit</th>
-										<th>Tahun Terbit</th>
+										<th>Letak</th>
 										<th width="80px" class="text-center">Kelola</th>
 									</tr>
 								</thead>
@@ -47,12 +48,12 @@
 										<td>{{ $row->kategori->nama }}</td>
 										<td>{{ $row->pengarang }}</td>
 										<td>{{ $row->penerbit }}</td>
-										<td>{{ $row->tahun }}</td>
+										<td>{{ $row->letak->nama }}</td>
 										<td class="text-center">
-											<form action="{{ route('kategori.destroy', $row->id) }}" method="POST">
+											<form action="{{ route('buku.destroy', $row->id) }}" method="POST">
 												@csrf
 												<input type="hidden" name="_method" value="DELETE">
-												<a href="{{ route('kategori.edit', $row->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+												<a href="{{ route('buku.edit', $row->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 												<button class="btn btn-danger btn-sm" id="delete"><i class="fa fa-trash"></i></button>
 											</form>
 										</td>

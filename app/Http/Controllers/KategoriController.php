@@ -93,7 +93,6 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $kategori = Kategori::find($id);
         $rules = [
             'nama'      => 'required|string|max:15|unique:kategori,nama,'.$kategori->id,

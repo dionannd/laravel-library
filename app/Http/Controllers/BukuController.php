@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Buku\Buku;
 use App\Model\Kategori\Kategori;
+use App\Model\Letak\Letak;
 
 class BukuController extends Controller
 {
@@ -27,7 +28,11 @@ class BukuController extends Controller
     public function create()
     {
         $kategori = Kategori::all();
-        return view('pages.buku.create', compact('kategori'));
+        $letak = Letak::all();
+        $awal = 'B';
+        $noAkhir = Buku::max('id');
+        $kode = $awal.sprintf('%04s', abs($noAkhir + 1));
+        return view('pages.buku.form', compact('kategori', 'letak', 'kode'));
     }
 
     /**
@@ -38,7 +43,28 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'nama'      => 'required|string|max:15|unique:kategori',
+            'deskripsi' => 'required|string'
+        ];
+        $message = [
+            'nama.unique' => 'Kategori sudah ada, harap ganti dengan yang lain'
+        ];
+        $validation = Validator::make($request->all(), $rules, $message);
+        if ($validation->fails()) {
+            /* redirect back and show error validation */
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+        $kategori = Kategori::create([
+            'nama'      => $request->nama,
+            'deskripsi' => $request->deskripsi
+        ]);
+        if ($kategori) {
+            /* if success redirect to kategori list */
+            return redirect()->route('kategori.index')->with(['success' => 'Kategori berhasil ditambahkan']);
+        } else {
+            return 500;
+        }
     }
 
     /**

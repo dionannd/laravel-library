@@ -27,8 +27,8 @@
 			            <form action="">
 			              	<div class="box-body">
 			                	<div class="form-group">
-			                  		<label for="kode" class="control-label">ID Buku:<span class="text-danger">*</span></label>
-		                    		<input type="text" name="kode" class="form-control" id="kode" value="" readonly>
+			                  		<label for="kode" class="control-label">ID Buku:</label>
+		                    		<input type="text" name="kode" class="form-control" id="kode" value="{{ $kode }}" readonly>
 			                	</div>
 			                	<div class="form-group">
 			                  		<label for="judul" class="control-label">Judul Buku:<span class="text-danger">*</span></label>
@@ -36,7 +36,7 @@
 			                	</div>
 			                	<div class="form-group">
 			                  		<label for="id_kategori" class="control-label">Kategori Buku:<span class="text-danger">*</span></label>
-		                    		<select name="id_kategori" id="id_kategori" class="form-control">
+		                    		<select name="id_kategori" id="id_kategori" class="form-control select2">
 		                    			<option value="">Pilih</option>
 		                    			@foreach($kategori as $row)
 		                    			<option value="{{ $row->id }}">{{ $row->nama }}</option>

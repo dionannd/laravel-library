@@ -41,7 +41,7 @@
 			                	</div>
 			                	<div class="form-group {{ $errors->has('deskripsi') ? ' has-error' : '' }}">
 			                  		<label for="deskripsi" class="control-label">Deskripsi:<span class="text-danger">*</span></label>
-		                    		<textarea name="deskripsi" id="deskripsi" cols="3" rows="3" class="form-control {{ $errors->has('deskripsi') ? ' is-invalid' : '' }}" required>{{ is_null(old('deskripsi')) ? (isset($kategori) ? $kategori->deskripsi : null) : old('deskripsi') }}</textarea>
+		                    		<textarea name="deskripsi" id="deskripsi" cols="3" rows="3" class="form-control" required>{{ is_null(old('deskripsi')) ? (isset($kategori) ? $kategori->deskripsi : null) : old('deskripsi') }}</textarea>
 			                  		@if ($errors->has('deskripsi'))
 	                                    <span class="help-block" role="alert">
 	                                        {{ $errors->first('deskripsi') }}

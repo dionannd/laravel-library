@@ -20,9 +20,15 @@
 				@component('components.box')
 					@slot('header')
 						<a href="{{ route('anggota.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+						<a href="#" class="btn btn-success btn-sm"><i class="fa fa-file"></i> Import</a>
 					@endslot
 					@slot('right')
 					@endslot
+						@if(session('success'))
+							@component('components.alert', ['type' => 'success'])
+								{!! session('success') !!}
+							@endcomponent
+						@endif
 						<div class="table-responsive">
 							<table class="table table-hover table-bordered table-striped" id="table">
 								<thead>
@@ -30,7 +36,7 @@
 										<th width="30px">No</th>
 										<th width="100px">ID Anggota</th>
 										<th>Nama Anggota</th>
-										<th>JK</th>
+										<th>Jenis Kelamin</th>
 										<th>Alamat</th>
 										<th>No. Telepon</th>
 										<th width="80px" class="text-center">Kelola</th>
@@ -40,16 +46,17 @@
 									@php $no = 1; @endphp
 									@foreach($anggota as $row)
 									<tr>
-										<td>{{ $row->kode }}</td>
+										<td>{{ $no++ }}</td>
+										<td><span class="label label-success">{{ $row->kode }}</span></td>
 										<td>{{ $row->nama }}</td>
 										<td>{{ $row->gender }}</td>
 										<td>{{ $row->alamat }}</td>
 										<td>{{ $row->telepon }}</td>
 										<td class="text-center">
-											<form action="{{ route('kategori.destroy', $row->id) }}" method="POST">
+											<form action="{{ route('anggota.destroy', $row->id) }}" method="POST">
 												@csrf
 												<input type="hidden" name="_method" value="DELETE">
-												<a href="{{ route('kategori.edit', $row->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+												<a href="{{ route('anggota.edit', $row->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 												<button class="btn btn-danger btn-sm" id="delete"><i class="fa fa-trash"></i></button>
 											</form>
 										</td>

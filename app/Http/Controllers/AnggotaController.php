@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Anggota\Anggota;
+use Validator;
 
 class AnggotaController extends Controller
 {
@@ -25,7 +26,10 @@ class AnggotaController extends Controller
      */
     public function create()
     {
-        return view('pages.anggota.create');
+        $awal = 'M';
+        $noAkhir = Anggota::max('id');
+        $kode = $awal.sprintf('%04s', abs($noAkhir + 1));
+        return view('pages.anggota.form', compact('kode'));
     }
 
     /**
@@ -36,7 +40,35 @@ class AnggotaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'kode'      => 'required|string|max:10|unique:anggota',
+            'nama'      => 'required|string|max:15',
+            'gender'    => 'required',
+            'alamat'    => 'required',
+            'telepon'   => 'required|max:13|regex:/(^62)([+?0-9]+$)+/'
+        ];
+        $message = [
+            'kode.unique' => 'Anggota sudah ada, harap ganti dengan yang lain',
+            'telepon.regex' => 'format telepon harus (628xxx)'
+        ];
+        $validation = Validator::make($request->all(), $rules, $message);
+        if ($validation->fails()) {
+            /* redirect back and show error validation */
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+        $anggota = Anggota::create([
+            'kode'      => $request->kode,
+            'nama'      => $request->nama,
+            'gender'    => $request->gender,
+            'alamat'    => $request->alamat,
+            'telepon'   => $request->telepon
+        ]);
+        if ($anggota) {
+            /* if success redirect to anggota list */
+            return redirect()->route('anggota.index')->with(['success' => 'Anggota berhasil ditambahkan']);
+        } else {
+            return 500;
+        }
     }
 
     /**
@@ -58,7 +90,9 @@ class AnggotaController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.anggota.edit');
+        $anggota = Anggota::find($id);
+        $kode = $anggota->kode;
+        return view('pages.anggota.form', compact('anggota', 'kode'));
     }
 
     /**
@@ -70,7 +104,36 @@ class AnggotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $anggota = Anggota::find($id);
+        $rules = [
+            'kode'      => 'required|string|max:10|unique:anggota,kode,'.$anggota->id,
+            'nama'      => 'required|string|max:15',
+            'gender'    => 'required|string',
+            'telepon'   => 'required|max:13|regex:/(^62)([+?0-9]+$)+/',
+            'alamat'    => 'required|string'
+        ];
+        $message = [
+            'kode.unique' => 'Anggota sudah ada, harap ganti dengan yang lain',
+            'telepon.regex' => 'format telepon harus (628xxx)'
+        ];
+        $validation = Validator::make($request->all(), $rules, $message);
+        if ($validation->fails()) {
+            /* redirect back and show error validation */
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+        if ($anggota) {
+            $anggota->update([
+                'kode'      => $request->kode,
+                'nama'      => $request->nama,
+                'gender'    => $request->gender,
+                'alamat'    => $request->alamat,
+                'telepon'   => $request->telepon
+            ]);
+            /* if success redirect to anggota list */
+            return redirect()->route('anggota.index')->with(['success' => 'Anggota berhasil diperbaharui']);
+        } else {
+            return 500;
+        }
     }
 
     /**
@@ -81,6 +144,9 @@ class AnggotaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $anggota = Anggota::find($id)->delete();
+        if ($anggota) {
+            return redirect()->route('anggota.index')->with(['success' => 'Anggota berhasil dihapus']);
+        }
     }
 }

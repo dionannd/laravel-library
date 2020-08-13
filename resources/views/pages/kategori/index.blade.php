@@ -20,6 +20,7 @@
 				@component('components.box')
 					@slot('header')
 						<a href="{{ route('kategori.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+						<a href="#" class="btn btn-success btn-sm"><i class="fa fa-file"></i> Import</a>
 					@endslot
 					@slot('right')
 					@endslot

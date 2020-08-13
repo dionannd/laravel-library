@@ -32,11 +32,11 @@ class UserController extends Controller
     		'role'		=> 'required|string|exists:roles,name'
     	]);
     	$user = User::firstOrCreate([
-    		'email'		=> $request->email
+    		'email'		=> $request->email,
+    		'username'	=> $request->username,
     	], [
     		'name'		=> $request->name,
-    		'username'	=> $request->username,
-    		'password'	=> bcrypt($request->username),
+    		'password'	=> bcrypt($request->password),
     		'status'	=> true
     	]);
     	$user->assignRole($request->role);
