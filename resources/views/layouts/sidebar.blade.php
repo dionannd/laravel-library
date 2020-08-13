@@ -14,7 +14,7 @@
             <li class="{{ set_active('home') }}">
                 <a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
             </li>
-            <li class="treeview {{ set_active(['buku.index', 'kategori.index', 'kategori.create', 'anggota.index', 'letak.index']) }}">
+            <li class="treeview {{ set_active(['buku.index', 'kategori.index', 'kategori.create', 'kategori.edit', 'anggota.index', 'letak.index']) }}">
                 <a href="#">
                     <i class="fa fa-folder"></i>
                     <span>Kelola Data</span>
@@ -23,14 +23,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ set_active(['kategori.index', 'kategori.create']) }}"><a href="{{ route('kategori.index') }}"><i class="fa fa-book"></i> Data Kategori</a></li>
+                    <li class="{{ set_active(['kategori.index', 'kategori.create', 'kategori.edit']) }}"><a href="{{ route('kategori.index') }}"><i class="fa fa-book"></i> Data Kategori</a></li>
                     <li class="{{ set_active('letak.index') }}"><a href="{{ route('letak.index') }}"><i class="fa fa-archive"></i> Data Letak</a></li>
                     <li class="{{ set_active('buku.index') }}"><a href="{{ route('buku.index') }}"><i class="fa fa-book"></i> Data Buku</a></li>
                     <li class="{{ set_active('anggota.index') }}"><a href="{{ route('anggota.index') }}"><i class="fa fa-group"></i> Data Anggota</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="#"><i class="fa fa-refresh"></i> <span>Sirkulasi</span></a>
+            <li class="{{ set_active('sirkulasi.index') }}">
+                <a href="{{ route('sirkulasi.index') }}"><i class="fa fa-refresh"></i> <span>Sirkulasi</span></a>
             </li>
             <li class="treeview">
                 <a href="#">

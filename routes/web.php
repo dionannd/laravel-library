@@ -45,4 +45,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('/buku', 'BukuController');
 	/** Anggota */
 	Route::resource('/anggota', 'AnggotaController');
+	/** Sirkulasi */
+	Route::resource('/sirkulasi', 'SirkulasiController');
 });

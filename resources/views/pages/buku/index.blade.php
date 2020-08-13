@@ -24,6 +24,11 @@
 					@endslot
 					@slot('right')
 					@endslot
+						@if(session('success'))
+							@component('components.alert', ['type' => 'success'])
+								{!! session('success') !!}
+							@endcomponent
+						@endif
 						<div class="table-responsive">
 							<table class="table table-hover table-bordered table-striped" id="table">
 								<thead>
@@ -43,7 +48,7 @@
 									@foreach($buku as $row)
 									<tr>
 										<td>{{ $no++ }}</td>
-										<td>{{ $row->kode }}</td>
+										<td><span class="label label-success">{{ $row->kode }}</span></td>
 										<td>{{ $row->judul }}</td>
 										<td>{{ $row->kategori->nama }}</td>
 										<td>{{ $row->pengarang }}</td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Model\Sirkulasi\Sirkulasi;
 
 class SirkulasiController extends Controller
 {
@@ -13,7 +14,7 @@ class SirkulasiController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.sirkulasi.index');
     }
 
     /**

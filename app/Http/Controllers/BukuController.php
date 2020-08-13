@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\Buku\Buku;
 use App\Model\Kategori\Kategori;
 use App\Model\Letak\Letak;
+use Validator;
 
 class BukuController extends Controller
 {
@@ -16,7 +17,7 @@ class BukuController extends Controller
      */
     public function index()
     {
-        $buku = Buku::all();
+        $buku = Buku::with('kategori')->latest()->get();
         return view('pages.buku.index', compact('buku'));
     }
 
@@ -44,24 +45,35 @@ class BukuController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama'      => 'required|string|max:15|unique:kategori',
-            'deskripsi' => 'required|string'
+            'kode'      => 'required|string|max:15|unique:buku',
+            'judul'     => 'required|string',
+            'id_kategori' => 'required',
+            'pengarang' => 'required',
+            'penerbit'  => 'required',
+            'tahun'     => 'required|integer',
+            'id_letak'  => 'required'
         ];
         $message = [
-            'nama.unique' => 'Kategori sudah ada, harap ganti dengan yang lain'
+            'kode.unique' => 'Kategori sudah ada, harap ganti dengan yang lain',
+            'tahun.integer' => 'Format tahun harus angka'
         ];
         $validation = Validator::make($request->all(), $rules, $message);
         if ($validation->fails()) {
             /* redirect back and show error validation */
             return redirect()->back()->withErrors($validation)->withInput();
         }
-        $kategori = Kategori::create([
-            'nama'      => $request->nama,
-            'deskripsi' => $request->deskripsi
+        $buku = Buku::create([
+            'kode'      => $request->kode,
+            'judul'     => $request->judul,
+            'id_kategori' => $request->id_kategori,
+            'pengarang' => $request->pengarang,
+            'penerbit'  => $request->penerbit,
+            'tahun'     => $request->tahun,
+            'letak'     => $request->letak
         ]);
-        if ($kategori) {
-            /* if success redirect to kategori list */
-            return redirect()->route('kategori.index')->with(['success' => 'Kategori berhasil ditambahkan']);
+        if ($buku) {
+            /* if success redirect to buku list */
+            return redirect()->route('buku.index')->with(['success' => 'Buku berhasil ditambahkan']);
         } else {
             return 500;
         }
@@ -86,7 +98,11 @@ class BukuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $buku = Buku::find($id);
+        $kode = $buku->kode;
+        $kategori = Kategori::all();
+        $letak = Letak::all();
+        return view('pages.buku.form', compact('buku', 'kode', 'kategori', 'letak'));
     }
 
     /**
@@ -98,7 +114,40 @@ class BukuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $buku = Buku::find($id);
+        $rules = [
+            'kode'      => 'required|string|max:15|unique:buku,kode,'.$buku->id,
+            'judul'     => 'required|string',
+            'id_kategori' => 'required',
+            'pengarang' => 'required',
+            'penerbit'  => 'required',
+            'tahun'     => 'required|integer',
+            'id_letak'  => 'required'
+        ];
+        $message = [
+            'kode.unique' => 'Kategori sudah ada, harap ganti dengan yang lain',
+            'tahun.integer' => 'Format tahun harus angka'
+        ];
+        $validation = Validator::make($request->all(), $rules, $message);
+        if ($validation->fails()) {
+            /* redirect back and show error validation */
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+        if ($buku) {
+            $buku->update([
+                'kode'      => $request->kode,
+                'judul'     => $request->judul,
+                'id_kategori' => $request->id_kategori,
+                'pengarang' => $request->pengarang,
+                'penerbit'  => $request->penerbit,
+                'tahun'     => $request->tahun,
+                'id_letak'  => $request->id_letak
+            ]);
+            /* if success redirect to bukuu list */
+            return redirect()->route('buku.index')->with(['success' => 'Buku berhasil diperbaharui']);
+        } else {
+            return 500;
+        }
     }
 
     /**
