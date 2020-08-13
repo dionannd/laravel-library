@@ -46,7 +46,7 @@
 										<td>{{ $row->email }}</td>
 										<td>
 											@foreach($row->getRoleNames() as $role)
-											<label class="label label-info">{{ $role }}</label>
+											<label class="label label-info">{{ ucfirst($role) }}</label>
 											@endforeach
 										</td>
 										<td>

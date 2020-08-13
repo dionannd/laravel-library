@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\User;
+use DB;
 
 class UserController extends Controller
 {
@@ -33,38 +33,38 @@ class UserController extends Controller
     	]);
     	$user = User::firstOrCreate([
     		'email'		=> $request->email,
-    		'username'	=> $request->username,
     	], [
     		'name'		=> $request->name,
+    		'username'	=> $request->username,
     		'password'	=> bcrypt($request->password),
     		'status'	=> true
     	]);
     	$user->assignRole($request->role);
-    	return redirect(route('pages.user.index'))->with(['success' => 'Akun baru berhasil ditambahkan']);
+    	return redirect(route('user.index'))->with(['success' => 'Akun baru berhasil ditambahkan']);
     }
 
     public function edit($id)
     {
-    	$user = User::find($id);
+    	$user = User::findOrFail($id);
     	return view('pages.user.form', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
+    	$user = User::findOrFail($id);
     	$this->validate($request, [
     		'name'		=> 'required|string|max:100',
-    		'username'	=> 'required|string|max:15|unique:users',
-    		'email'		=> 'required|email|unique:users',
-    		'password'	=> 'required|min:6',
+    		'username'	=> 'required|string|max:15|unique:users,username,'.$user->id,
+    		'email'		=> 'required|email|exists:users,email',
+    		'password'	=> 'nullable|min:6',
     	]);
-    	$user = User::findOrFail($id);
     	$password = !empty($request->password) ? bcrypt($request->password):$user->password;
     	$user->update([
     		'name'		=> $request->name,
     		'username'	=> $request->username,
     		'password'	=> $password
     	]);
-    	return redirect(route('pages.user.index'))->with(['success' => 'Akun baru berhasil diperbaharui']);
+    	return redirect(route('user.index'))->with(['success' => 'Akun baru berhasil diperbaharui']);
     }
 
     public function destroy($id)
