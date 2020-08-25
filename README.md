@@ -1,2 +1,2 @@
 # laravel-library
-Library Apps with Laravel Framework
+Library Simple Apps with Laravel Framework
