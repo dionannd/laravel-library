@@ -29,7 +29,7 @@
                     <li class="{{ set_active('anggota.index') }}"><a href="{{ route('anggota.index') }}"><i class="fa fa-group"></i> Data Anggota</a></li>
                 </ul>
             </li>
-            <li class="{{ set_active('sirkulasi.index') }}">
+            <li class="{{ set_active(['sirkulasi.index', 'sirkulasi.create']) }}">
                 <a href="{{ route('sirkulasi.index') }}"><i class="fa fa-refresh"></i> <span>Sirkulasi</span></a>
             </li>
             <li class="treeview">

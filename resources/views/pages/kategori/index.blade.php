@@ -72,10 +72,13 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#table').DataTable({
+			responsive: true,
+			autoWidth: false,
 			columnDefs: [
 				{
 					targets: [-1],
-					orderable: false
+					orderable: false,
+					searchable: false
 				}
 			]
 		});

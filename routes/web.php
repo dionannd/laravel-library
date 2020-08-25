@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function() {
 	/** Kategori */
 	Route::resource('/kategori', 'KategoriController');
 	/** Letak */
-	Route::resource('letak', 'LetakController');
+	Route::resource('/letak', 'LetakController');
 	/** Buku */
 	Route::resource('/buku', 'BukuController');
 	/** Anggota */

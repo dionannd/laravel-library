@@ -18,9 +18,9 @@ class CreateSirkulasiTable extends Migration
             $table->string('kode')->unique();
             $table->foreignId('id_buku');
             $table->foreignId('id_anggota');
-            $table->date('tgl_pinjam');
-            $table->date('tgl_kembali');
-            $table->string('denda');
+            $table->dateTime('tgl_pinjam');
+            $table->dateTime('tgl_kembali');
+            $table->enum('status', ['1', '2'])->default('1');
             $table->timestamps();
         });
     }

@@ -13,7 +13,10 @@ class AddRelationTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('sirkulasi', function(Blueprint $table) {
+           $table->foreign('id_buku')->references('id')->on('buku'); 
+           $table->foreign('id_anggota')->references('id')->on('anggota'); 
+        });
     }
 
     /**

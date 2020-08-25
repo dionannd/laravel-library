@@ -45,8 +45,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        $role = Role::orderBy('name', 'ASC')->get();
     	$user = User::findOrFail($id);
-    	return view('pages.user.form', compact('user'));
+    	return view('pages.user.form', compact('user', 'role'));
     }
 
     public function update(Request $request, $id)
